@@ -25,7 +25,8 @@ class CMB2_SuggestField {
 		foreach(CMB2_Boxes::get_all() as $cmb) {
 			foreach( $cmb->prop('fields') as $field_data) {
 				if($field_data['type'] === 'suggest') {
-					$this->options[$field_data['id']] = $field_data['options'];
+					$field_data['options'] = is_array($field_data['options']) ? $field_data['options'] : array();
+					$this->options[ $field_data['id'] ] = $field_data['options'];
 				}
 			}
 		}
@@ -35,7 +36,7 @@ class CMB2_SuggestField {
 		if (array_key_exists( $_GET['field'], $this->options ) ) {
 			foreach($this->options[ $_GET['field'] ] as $opt) {
 				if (0 === stripos($opt, $_GET['q']) ) {
-					echo $opt;
+					echo $opt ."\n";
 				}
 			}
 			die();
@@ -50,7 +51,7 @@ class CMB2_SuggestField {
 	}
 
 	public function admin_enqueue_scripts($hook) {
-		if ( in_array( $hook, array( 'post.php', 'post-new.php', 'page-new.php', 'page.php' ), true ) ) {
+		if ( in_array( $hook, array( 'comment.php', 'post.php', 'post-new.php', 'page-new.php', 'page.php' ), true ) ) {
 			wp_enqueue_script( 'suggest_field', plugin_dir_url( __FILE__ ).'/suggest_field.js', 'suggest', self::VERSION, true);
 		}
 	}
