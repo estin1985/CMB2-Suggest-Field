@@ -52,7 +52,7 @@ class CMB2_SuggestField {
 
 	public function admin_enqueue_scripts($hook) {
 		if ( in_array( $hook, array( 'comment.php', 'post.php', 'post-new.php', 'page-new.php', 'page.php' ), true ) ) {
-			wp_enqueue_script( 'suggest_field', plugin_dir_url( __FILE__ ).'/suggest_field.js', 'suggest', self::VERSION, true);
+			wp_enqueue_script( 'suggest_field', plugin_dir_url( __FILE__ ).'/suggest_field.js', array('suggest'), self::VERSION, true);
 		}
 	}
 }
